@@ -6,7 +6,6 @@
 # List of models to pull, separated by spaces.
 # Add all the models from your list here.
 MODELS_TO_PULL="
-gpt-oss:20b
 mannix/qwq-32b-abilterated:latest
 wizardlm-uncensored:latest
 qwen3:8b

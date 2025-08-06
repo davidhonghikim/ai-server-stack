@@ -41,14 +41,12 @@
             { name: 'Gitea', url: 'http://gitea.localhost', icon: '🐙', description: 'Git Service' },
             { name: 'Codium', url: 'http://codium.localhost', icon: '💻', description: 'VS Code' },
             { name: 'Supabase', url: 'http://supabase.localhost', icon: '🛢️', description: 'Firebase Alt' },
-            { name: 'Nextcloud', url: 'http://nextcloud.localhost', icon: '☁️', description: 'File Sharing' },
             { name: 'Redis Commander', url: 'http://redis-commander.localhost', icon: '🔑', description: 'Redis Commander Web UI' },
             { name: 'Mongo Express', url: 'http://mongo.localhost', icon: '🍃', description: 'Mongo Express Web UI' },
-            { name: 'PgAdmin', url: 'http://pgadmin.localhost', icon: '🐘', description: 'PostgreSQL' },
             { name: 'MinIO', url: 'http://minio.localhost', icon: '📦', description: 'S3 Storage' },
             { name: 'Weaviate', url: 'http://weaviate.localhost', icon: '🧠', description: 'Vector DB' },
             { name: 'Elastic', url: 'http://elasticsearch.localhost', icon: '🔍', description: 'Search' },
-            { name: 'Neo4j', url: 'http://neo4j.localhost', icon: '📊', description: 'Graph DB' }
+            { name: 'pgAdmin', url: 'http://pgadmin.localhost', icon: '🐘', description: 'PostgreSQL Admin' }
         ];
 
         async function checkService(service) {
@@ -57,7 +55,10 @@
             
             try {
                 const start = Date.now();
-                await fetch(service.url, { method: 'HEAD', mode: 'no-cors', signal: controller.signal });
+                const response = await fetch(service.url, { method: 'GET', signal: controller.signal });
+                if (!response.ok && response.status !== 302) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 return {
                     ...service,
                     status: 'online',
